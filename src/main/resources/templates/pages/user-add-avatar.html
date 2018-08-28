@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+
+<head>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Add Enterprise</title>
+</head>
+
+<body>
+<div  layout:fragment="content">
+    <div id="page-wrapper">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-lg-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading text-center">
+                        <h3 class="text-center">Редактировать юзера</h3>
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <form role="form" method="POST" enctype="multipart/form-data" th:action="@{'/users/' + ${user.userID} + '/addAvatar'}">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            <fieldset>
+                                <div class="form-group">
+                                    <input type="file" class="form-control" name="file" />
+                                </div>
+                                <button class="btn btn-lg btn-success btn-block" type="submit">Сохранить</button>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

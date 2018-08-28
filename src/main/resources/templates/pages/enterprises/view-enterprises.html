@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+
+<head>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Add Enterprise</title>
+</head>
+
+<body>
+<div  layout:fragment="content">
+    <div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+            <ul class="nav" id="side-menu">
+                <li>
+                    <a th:href="@{/finaudit}"><i class="fa fa-dashboard fa-fw"></i>Главная</a>
+                </li>
+                <li>
+                    <a th:href="@{/finaudit/enterprises/create}">Добавить предприятие</a>
+                </li>
+                <li>
+                    <a th:href="@{/finaudit/enterprises}">Все предприятия</a>
+                </li>
+                <li class="sidebar-search">Выбрать:
+                    <form role="form" method="POST" th:action="@{/finaudit/enterprises/select}" th:object="${enterpriseForm}">
+                        <div class="input-group custom-search-form">
+                            <select id="name" name="name" class="form-control">
+                                <option selected>Выбрать...</option>
+                                <option th:if="${enterprises != null}"
+                                        th:each="enterprise: ${enterprises}"
+                                        th:value="${enterprise.name}"
+                                        th:text="${enterprise.name}">
+                                </option>
+                            </select>
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                              </span>
+                        </div>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header text-center">Финансовый анализ предприятий</h1>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-lg-8 col-lg-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="text-center">Список предприятий</h3>
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body justify-content-center">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Наименование предприятия</th>
+                                    <th colspan="3"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:if="${enterprises != null}" th:each="enterprise,count: ${enterprises}">
+                                    <th th:text="${count.index}"></th>
+                                    <td th:text="${enterprise.name}"></td>
+                                    <td><a class="btn btn-sm btn-success btn-block" th:href="@{'/finaudit/enterprises/' + ${enterprise.enterpriseId}}">Перейти</a></td>
+                                    <td><a class="btn btn-sm btn-warning btn-block" th:href="@{'/finaudit/enterprises/' + ${enterprise.enterpriseId} + '/edit'}">Редактировать</a></td>
+                                    <td><a class="btn btn-sm btn-danger btn-block" th:href="@{'/finaudit/enterprises/' + ${enterprise.enterpriseId} + '/delete'}">Удалить</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

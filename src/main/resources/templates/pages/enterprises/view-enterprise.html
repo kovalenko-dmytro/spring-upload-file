@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+
+<head>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Add Enterprise</title>
+
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+
+</head>
+
+<body>
+<div  layout:fragment="content">
+    <div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+            <ul class="nav" id="side-menu">
+                <li>
+                    <a th:href="@{/finaudit}"><i class="fa fa-dashboard fa-fw"></i>Главная</a>
+                </li>
+                <div id="accordion" role="tablist" aria-multiselectable="true">
+                    <li>
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingOne">
+                                <h5 class="mb-0">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Добавить исходные данные
+                                    </a>
+                                </h5>
+                            </div>
+                            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="card-block">
+                                    <ul >
+                                        <li th:if="${statements != null}" th:each="statement: ${statements}">
+                                            <a class="dropdown-item" th:href="@{'/finaudit/enterprises/' + ${enterprise.enterpriseId} + '/statements/' + ${statement.statementId} + '/create'}" th:text="${statement.name}"></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        </li>
+                    <li>
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingTwo">
+                                <h5 class="mb-0">
+                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        Смотреть исходные данные
+                                    </a>
+                                </h5>
+                            </div>
+                            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                <div class="card-block">
+                                    <ul >
+                                        <li th:if="${statements != null}" th:each="statement: ${statements}">
+                                            <a class="dropdown-item" th:href="@{'/finaudit/enterprises/' + ${enterprise.enterpriseId} + '/statements/' + ${statement.statementId}}" th:text="${statement.name}"></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        </li>
+                    <li>
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingThree">
+                                <h5 class="mb-0">
+                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        Провести анализ
+                                    </a>
+                                </h5>
+                            </div>
+                            <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+                                <div class="card-block">
+                                    <ul >
+                                        <li >
+                                            <a class="dropdown-item" th:href="@{'/finaudit/enterprises/' + ${enterprise.enterpriseId} + '/output'}">Анализ</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        </li>
+                </div>
+            </ul>
+        </div>
+    </div>
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header text-center">Финансовый анализ предприятий</h1>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-lg-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="text-center">Описание предприятия</h3>
+                    </div>
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <dt>Наименование:</dt>
+                            <dd th:text="${enterprise.name}"></dd>
+                            <dt>Индекс:</dt>
+                            <dd th:if="${enterprise.address != null}" th:text="${enterprise.address.index}"></dd>
+                            <dt>Город:</dt>
+                            <dd th:if="${enterprise.address != null}" th:text="${enterprise.address.city}"></dd>
+                            <dt>Улица:</dt>
+                            <dd th:if="${enterprise.address != null}" th:text="${enterprise.address.street}"></dd>
+                            <dt>Строение:</dt>
+                            <dd th:if="${enterprise.address != null}" th:text="${enterprise.address.building}"></dd>
+                        </dl>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

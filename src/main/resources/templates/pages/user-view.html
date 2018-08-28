@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:th="http://www.thymeleaf.org"
+	  layout:decorate="~{fragments/layout}">
+
+  <head>
+	  <meta name="description" content=""/>
+	  <meta name="author" content=""/>
+	  <title>Index</title>
+  </head>
+
+  <body>
+	  <!-- Page Content -->
+	  <div layout:fragment="content" th:remove="tag">
+		  <div id="page-wrapper">
+			  <div class="row justify-content-center">
+				  <div class="col-lg-8 col-lg-offset-2">
+					  <div class="panel panel-default">
+						  <div class="panel-heading">
+							  <h3 class="text-center">Описание юзера</h3>
+						  </div>
+						  <div class="panel-body">
+							  <dl th:if="${user != null}" class="dl-horizontal">
+								  <dt>ID:</dt>
+								  <dd th:text="${user.userID}"></dd>
+								  <dt>Имя:</dt>
+								  <dd th:text="${user.firstName}"></dd>
+								  <dt>Фамилия:</dt>
+								  <dd th:text="${user.lastName}"></dd>
+								  <dt>День рождения:</dt>
+								  <dd th:text="${user.birthday}"></dd>
+								  <dt>Аватар:</dt>
+								  <dd th:if="${user.image != null}">
+									  <img th:src="*{'data:image/png;base64,'+user.image}" alt="" />
+								  </dd>
+							  </dl>
+						  </div>
+						  <!-- /.panel-body -->
+					  </div>
+					  <!-- /.panel -->
+				  </div>
+			  </div>
+		  </div>
+	  </div>
+  </body>
+</html>
