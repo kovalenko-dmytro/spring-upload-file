@@ -26,20 +26,23 @@ public class UserServiceImpl implements UserService {
 
         List<User> users = userDAO.find();
 
-        users = users.stream().peek(user -> {
+            users.forEach(user -> {
 
-            if (user.getAvatar() != null) {
+                byte[] encodeBase64 = user.getAvatar() != null
+                        ? Base64.encodeBase64(user.getAvatar().getFileData())
+                        : Base64.encodeBase64(new byte[0]);
+
                 String base64Encoded = null;
                 try {
-                    byte[] encodeBase64 = Base64.encodeBase64(user.getAvatar().getFileData());
-                    base64Encoded = new String(encodeBase64, "UTF-8");
+                    base64Encoded = new String(
+                            encodeBase64 != null ? encodeBase64 : new byte[0],
+                            "UTF-8"
+                    );
+                    user.setImage(base64Encoded);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                user.setImage(base64Encoded);
-            }
-
-        }).collect(Collectors.toList());
+            });
 
         return users;
     }
@@ -49,17 +52,18 @@ public class UserServiceImpl implements UserService {
 
         User user = userDAO.find(userID);
 
-        if (user.getAvatar() != null) {
+        byte[] encodeBase64 = user.getAvatar() != null
+                ? Base64.encodeBase64(user.getAvatar().getFileData())
+                : Base64.encodeBase64(new byte[0]);
 
-            byte[] encodeBase64 = Base64.encodeBase64(user.getAvatar().getFileData());
-            String base64Encoded = null;
-            try {
-                base64Encoded = new String(encodeBase64, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-
+        String base64Encoded = null;
+        try {
+            base64Encoded = new String(
+                    encodeBase64 != null ? encodeBase64 : new byte[0],
+                    "UTF-8");
             user.setImage(base64Encoded);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
 
         return user;
