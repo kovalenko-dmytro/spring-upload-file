@@ -3,14 +3,13 @@ package com.dkovalenko.uploadfile.converter;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 @Component
-public class LocalDateAttributeConverter implements Converter<String, LocalDate> {
+public class StringDateConverter implements Converter<LocalDate, String> {
 
     @Override
-    public LocalDate convert(String s) {
-        return LocalDate.parse(s);
+    public String convert(LocalDate localDate) {
+        return localDate.toString();
     }
 }

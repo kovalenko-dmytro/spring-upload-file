@@ -9,4 +9,8 @@ public interface UserDAO {
     List<User> find();
 
     User find(long userID);
+
+    void save(User user);
+
+    void delete(long userID);
 }

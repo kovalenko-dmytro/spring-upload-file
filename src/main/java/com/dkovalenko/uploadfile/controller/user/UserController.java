@@ -1,5 +1,6 @@
 package com.dkovalenko.uploadfile.controller.user;
 
+import com.dkovalenko.uploadfile.dto.user.User;
 import com.dkovalenko.uploadfile.service.avatar.AvatarService;
 import com.dkovalenko.uploadfile.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 @Controller
 public class UserController {
@@ -45,7 +48,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/users/{userID}/addAvatar")
-    public ModelAndView save(@PathVariable(value = "userID") long userID,
+    public ModelAndView addAvatar(@PathVariable(value = "userID") long userID,
                              @RequestParam("file") MultipartFile file) {
 
         ModelAndView view = new ModelAndView();
@@ -59,6 +62,37 @@ public class UserController {
         }
 
         view.setViewName("redirect:/users");
+        return view;
+    }
+
+    @GetMapping(value = "/users/create")
+    public ModelAndView create(User user) {
+
+        ModelAndView view = new ModelAndView();
+        view.addObject("user", user);
+        view.setViewName("/pages/user-create");
+        return view;
+    }
+
+    @PostMapping(value = "/users/create")
+    public ModelAndView save(@Valid @ModelAttribute("user") User user) {
+
+        ModelAndView view = new ModelAndView();
+
+        userService.save(user);
+        view.setViewName("redirect:/users");
+        return view;
+    }
+
+    @RequestMapping(value = "/users/{userID}/delete")
+    public ModelAndView delete(@PathVariable(value = "userID") long userID) {
+
+        ModelAndView view = new ModelAndView();
+
+        userService.delete(userID);
+
+        view.setViewName("redirect:/users");
+
         return view;
     }
 }

@@ -70,8 +70,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(User user) {
-        return null;
+    public void save(User user) {
+        userDAO.save(user);
     }
 
     @Override
@@ -81,6 +81,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(long userID) {
-
+        userDAO.delete(userID);
     }
 }

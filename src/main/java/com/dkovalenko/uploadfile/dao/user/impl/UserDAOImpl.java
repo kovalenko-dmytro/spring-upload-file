@@ -43,4 +43,21 @@ public class UserDAOImpl implements UserDAO {
                 new UserRowMapper());
     }
 
+    @Override
+    public void save(User user) {
+
+        Object[] params = {user.getFirstName(), user.getLastName(), user.getBirthday()};
+
+         jdbcTemplate.update("INSERT INTO users (first_name, last_name, birthday) VALUES(?, ?, ?)",
+                params);
+    }
+
+    @Override
+    public void delete(long userID) {
+
+        Object[] params = {userID};
+
+        jdbcTemplate.update("DELETE FROM users WHERE user_id = ?", params);
+    }
+
 }
