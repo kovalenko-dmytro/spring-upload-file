@@ -13,4 +13,6 @@ public interface UserDAO {
     void save(User user);
 
     void delete(long userID);
+
+    void update(String firstName, String lastName, long userID);
 }

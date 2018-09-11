@@ -8,6 +8,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class AvatarDAOImpl implements AvatarDAO {
 
@@ -21,26 +23,16 @@ public class AvatarDAOImpl implements AvatarDAO {
     @Override
     public void save(long userID, Avatar avatar) {
 
-        Object[] params = {avatar.getFileName(), avatar.getFileType(), avatar.getFileData(), userID};
+       /* Object[] params = {avatar.getFileName(), avatar.getFileType(), avatar.getFileData(), userID};
         jdbcTemplate.update("INSERT INTO avatars (file_name, file_type, data, user_id) VALUES(?, ?, ?, ?)",
-                params);
+                params);*/
     }
 
     @Override
-    public Avatar find(long userID) {
+    public List<Avatar> find(long userID) {
 
         Object[] params = {userID};
-        Avatar avatar;
 
-        try {
-            avatar =  jdbcTemplate.queryForObject("SELECT avatar_id, file_name, file_type, data, user_id " +
-                            "FROM avatars " +
-                            "WHERE user_id = ?",
-                    params,
-                    new AvatarRowMapper());
-        } catch (DataAccessException e) {
-            avatar = null;
-        }
-        return avatar;
+        return jdbcTemplate.query("SELECT * FROM avatars WHERE uploaded_user_id = ?", params, new AvatarRowMapper());
     }
 }

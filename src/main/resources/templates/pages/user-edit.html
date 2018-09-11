@@ -21,7 +21,7 @@
                             </div>
                             <!-- /.panel-heading -->
                             <div class="panel-body">
-                                <form role="form" method="POST" th:action="@{/users/create}" th:object="${user}">
+                                <form role="form" method="POST" th:action="@{'/users/' + ${user.userID} + '/update'}" th:object="${user}">
                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                     <fieldset>
                                         <div class="form-group">

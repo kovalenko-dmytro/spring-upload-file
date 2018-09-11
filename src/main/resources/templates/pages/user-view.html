@@ -28,18 +28,36 @@
 								  <dd th:text="${user.firstName}"></dd>
 								  <dt>Фамилия:</dt>
 								  <dd th:text="${user.lastName}"></dd>
-								  <dt>День рождения:</dt>
-								  <dd th:text="${user.birthday}"></dd>
-								  <dt>Аватар:</dt>
-								  <dd th:if="${user.image != null}">
-									  <img th:src="*{'data:image/png;base64,'+user.image}" alt="" />
-								  </dd>
 							  </dl>
 						  </div>
 						  <!-- /.panel-body -->
 					  </div>
 					  <!-- /.panel -->
 				  </div>
+				  <div class="col-lg-8 col-lg-offset-2">
+					  <div th:if="${message}">
+						  <h2 th:text="${message}"/>
+					  </div>
+
+					  <div>
+						  <form method="POST" enctype="multipart/form-data" action="/">
+							  <table>
+								  <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+								  <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+							  </table>
+						  </form>
+					  </div>
+
+					  <div>
+						  <ul>
+							  <li th:each="avatar : ${avatars}">
+								  <a th:href="${avatar.avatarUri}" th:text="${avatar.avatarUri}" />
+							  </li>
+						  </ul>
+					  </div>
+				  </div>
+
+
 			  </div>
 		  </div>
 	  </div>

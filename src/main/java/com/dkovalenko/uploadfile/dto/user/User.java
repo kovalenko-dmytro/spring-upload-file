@@ -15,14 +15,5 @@ public class User {
     private long userID;
     private String firstName;
     private String lastName;
-    private LocalDate birthday;
-    private Avatar avatar;
-    private String image;
 
-    public User(long userID, String firstName, String lastName, LocalDate birthday) {
-        this.userID = userID;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthday = birthday;
-    }
 }

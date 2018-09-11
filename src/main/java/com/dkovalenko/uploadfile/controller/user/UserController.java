@@ -39,7 +39,7 @@ public class UserController {
         return view;
     }
 
-    @GetMapping(value = "/users/{userID}/addAvatar")
+    /*@GetMapping(value = "/users/{userID}/addAvatar")
     public ModelAndView addAvatar(@PathVariable(value = "userID") long userID) {
         ModelAndView view = new ModelAndView();
         view.addObject("user", userService.find(userID));
@@ -63,7 +63,7 @@ public class UserController {
 
         view.setViewName("redirect:/users");
         return view;
-    }
+    }*/
 
     @GetMapping(value = "/users/create")
     public ModelAndView create(User user) {
@@ -80,6 +80,26 @@ public class UserController {
         ModelAndView view = new ModelAndView();
 
         userService.save(user);
+        view.setViewName("redirect:/users");
+        return view;
+    }
+
+    @GetMapping(value = "/users/{userID}/edit")
+    public ModelAndView edit(User user, @PathVariable(value = "userID") long userID) {
+
+        ModelAndView view = new ModelAndView();
+        view.addObject("user", userService.find(userID));
+        view.setViewName("/pages/user-edit");
+        return view;
+    }
+
+    @PostMapping(value = "/users/{userID}/update")
+    public ModelAndView update(@Valid @ModelAttribute("user") User user,
+                             @PathVariable(value = "userID") long userID) {
+
+        ModelAndView view = new ModelAndView();
+
+        userService.update(userID, user);
         view.setViewName("redirect:/users");
         return view;
     }

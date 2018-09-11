@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
         List<User> users = userDAO.find();
 
-            users.forEach(user -> {
+            /*users.forEach(user -> {
 
                 byte[] encodeBase64 = user.getAvatar() != null
                         ? Base64.encodeBase64(user.getAvatar().getFileData())
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-            });
+            });*/
 
         return users;
     }
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
         User user = userDAO.find(userID);
 
-        byte[] encodeBase64 = user.getAvatar() != null
+        /*byte[] encodeBase64 = user.getAvatar() != null
                 ? Base64.encodeBase64(user.getAvatar().getFileData())
                 : Base64.encodeBase64(new byte[0]);
 
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
             user.setImage(base64Encoded);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-        }
+        }*/
 
         return user;
     }
@@ -76,7 +76,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(long userID, User user) {
-        return null;
+
+        userDAO.update(user.getFirstName(), user.getLastName(), userID);
+
+        return user;
     }
 
     @Override

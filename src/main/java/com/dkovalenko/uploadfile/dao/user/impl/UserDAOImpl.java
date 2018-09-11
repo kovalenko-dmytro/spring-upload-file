@@ -22,10 +22,8 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public List<User> find() {
 
-        return jdbcTemplate.query("SELECT u.user_id, u.first_name, u.last_name, u.birthday, " +
-                "a.avatar_id, a.file_name, a.file_type, a.data, a.user_id " +
-                "FROM users u " +
-                "LEFT JOIN avatars a ON u.user_id = a.user_id",
+        return jdbcTemplate.query("SELECT u.user_id, u.first_name, u.last_name  " +
+                "FROM users u ",
                 new UserRowMapper());
     }
 
@@ -34,10 +32,8 @@ public class UserDAOImpl implements UserDAO {
 
         Object[] params = {userID};
 
-        return jdbcTemplate.queryForObject("SELECT u.user_id, u.first_name, u.last_name, u.birthday, " +
-                "a.avatar_id, a.file_name, a.file_type, a.data, a.user_id " +
+        return jdbcTemplate.queryForObject("SELECT u.user_id, u.first_name, u.last_name " +
                 "FROM users u " +
-                "LEFT JOIN avatars a ON u.user_id = a.user_id " +
                 "WHERE u.user_id = ?",
                 params,
                 new UserRowMapper());
@@ -46,9 +42,9 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void save(User user) {
 
-        Object[] params = {user.getFirstName(), user.getLastName(), user.getBirthday()};
+        Object[] params = {user.getFirstName(), user.getLastName()};
 
-         jdbcTemplate.update("INSERT INTO users (first_name, last_name, birthday) VALUES(?, ?, ?)",
+         jdbcTemplate.update("INSERT INTO users (first_name, last_name) VALUES(?, ?)",
                 params);
     }
 
@@ -58,6 +54,15 @@ public class UserDAOImpl implements UserDAO {
         Object[] params = {userID};
 
         jdbcTemplate.update("DELETE FROM users WHERE user_id = ?", params);
+    }
+
+    @Override
+    public void update(String firstName, String lastName, long userID) {
+
+        Object[] params = {firstName, lastName, userID};
+
+        jdbcTemplate.update("UPDATE users SET first_name = ?, last_name = ? WHERE user_id = ?", params);
+
     }
 
 }
