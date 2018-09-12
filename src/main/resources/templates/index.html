@@ -70,7 +70,6 @@
 							  <th>ID</th>
 							  <th>File name</th>
 							  <th>File uploaded by user ID</th>
-							  <th>Path</th>
 							  <th>URI</th>
 						  </tr>
 						  </thead>
@@ -79,8 +78,9 @@
 							  <th th:text="${avatar.avatarID}"></th>
 							  <th th:text="${avatar.avatarName}"></th>
 							  <th th:text="${avatar.uploadedByUserID}"></th>
-							  <th th:text="${avatar.avatarPath}"></th>
-							  <th th:text="${avatar.avatarUri}"></th>
+							  <th>
+								  <img th:src="@{${avatar.avatarUri}}" title="" style="width: 75px; height: 75px;" />
+							  </th>
 						  </tr>
 						  </tbody>
 					  </table>

@@ -47,40 +47,13 @@ public class AvatarServiceImpl implements AvatarService {
     @Override
     public List<Avatar> find() {
 
-        List<Avatar> avatars = avatarDAO.find();
-
-        List<Path> paths = loadAll(avatars);
-
-        avatars = avatars.stream()
-                .peek(avatar -> avatar.setAvatarPath(
-                        paths.stream()
-                                .filter(path -> path.getFileName().toString().equals(avatar.getAvatarName()))
-                                .findFirst()
-                                .get())
-                )
-                .collect(Collectors.toList());
-
-        return avatars;
+        return avatarDAO.find();
     }
 
     @Override
     public List<Avatar> find(long userID) {
 
-        List<Avatar> avatars = avatarDAO.find(userID);
-
-        /*List<Path> paths = loadAll(avatars);
-
-        avatars = avatars.stream()
-                .peek(avatar -> avatar.setAvatarPath(
-                        paths.stream()
-                                .filter(path -> path.getFileName().toString().equals(avatar.getAvatarName()))
-                                .findFirst()
-                                .get())
-                )
-                .collect(Collectors.toList());*/
-
-
-        return avatars;
+        return avatarDAO.find(userID);
     }
 
     @Override

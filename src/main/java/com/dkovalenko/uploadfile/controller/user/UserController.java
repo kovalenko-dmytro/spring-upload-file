@@ -39,8 +39,8 @@ public class UserController {
 
             List<Avatar> avatars = avatarService.find();
 
-            avatars.forEach(avatar -> avatar.setAvatarUri(MvcUriComponentsBuilder.fromMethodName(UserController.class,
-                    "serveFile", avatar.getAvatarPath().getFileName().toString()).build().toString()));
+            avatars.forEach(avatar -> avatar.setAvatarUri(MvcUriComponentsBuilder.fromMethodName(AvatarController.class,
+                    "serveFile", avatar.getUploadedByUserID(), avatar.getAvatarName()).build().toString()));
 
             view.addObject("avatars", avatars);
 
