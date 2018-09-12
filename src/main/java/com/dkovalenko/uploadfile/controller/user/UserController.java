@@ -52,12 +52,6 @@ public class UserController {
         return view;
     }
 
-    @GetMapping("users/{avatarName:.+}")
-    public Resource serveFile(@PathVariable String avatarName) {
-
-        return avatarService.loadAsResource(avatarName);
-    }
-
     @GetMapping(value = "/users/{userID}/view")
     public ModelAndView find(@PathVariable(value = "userID") long userID) {
         ModelAndView view = new ModelAndView();
@@ -65,32 +59,6 @@ public class UserController {
         view.setViewName("/pages/user-view");
         return view;
     }
-
-    /*@GetMapping(value = "/users/{userID}/addAvatar")
-    public ModelAndView addAvatar(@PathVariable(value = "userID") long userID) {
-        ModelAndView view = new ModelAndView();
-        view.addObject("user", userService.find(userID));
-        view.setViewName("/pages/user-add-avatar");
-        return view;
-    }
-
-    @PostMapping(value = "/users/{userID}/addAvatar")
-    public ModelAndView addAvatar(@PathVariable(value = "userID") long userID,
-                             @RequestParam("file") MultipartFile file) {
-
-        ModelAndView view = new ModelAndView();
-
-        if (file != null) {
-
-            avatarService.store(userID, file);
-
-            view.addObject("users", userService.find());
-
-        }
-
-        view.setViewName("redirect:/users");
-        return view;
-    }*/
 
     @GetMapping(value = "/users/create")
     public ModelAndView create(User user) {

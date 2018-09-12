@@ -3,6 +3,7 @@ package com.dkovalenko.uploadfile.controller.avatar;
 import com.dkovalenko.uploadfile.dto.avatar.Avatar;
 import com.dkovalenko.uploadfile.exception.StorageException;
 import com.dkovalenko.uploadfile.service.avatar.AvatarService;
+import com.dkovalenko.uploadfile.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.*;
@@ -47,8 +48,8 @@ public class AvatarController {
         return view;
     }
 
-    @PostMapping(value = "users/{userID}/avatars")
-    public ModelAndView handleFileUpload(@PathVariable long userID, @RequestParam("file") MultipartFile file,
+    @PostMapping(value = "users/avatars")
+    public ModelAndView handleFileUpload(@RequestParam("file") MultipartFile file, @RequestParam("userID") long userID,
                                          RedirectAttributes redirectAttributes) {
 
         ModelAndView view = new ModelAndView();

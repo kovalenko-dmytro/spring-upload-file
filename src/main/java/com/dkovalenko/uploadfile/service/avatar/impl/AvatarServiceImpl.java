@@ -79,6 +79,16 @@ public class AvatarServiceImpl implements AvatarService {
                 Files.copy(inputStream, this.rootLocation.resolve(filename),
                         StandardCopyOption.REPLACE_EXISTING);
                 avatarDAO.save(filename, userID);
+
+                boolean isUploadedByUserAvatarsExisting =
+                        avatarDAO
+                                .find(userID)
+                                .stream()
+                                .anyMatch(avatar -> avatar.getUploadedByUserID() == userID);
+
+                if (userID != 0 && isUploadedByUserAvatarsExisting) {
+                    //get vip money from user
+                }
             }
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + filename, e);
