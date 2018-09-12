@@ -77,16 +77,20 @@
 							  <th>File name</th>
 							  <th>File uploaded by user ID</th>
 							  <th>URI</th>
+							  <th colspan="1"></th>
 						  </tr>
 						  </thead>
 						  <tbody>
 						  <tr th:if="${avatars != null}" th:each="avatar: ${avatars}">
-							  <th th:text="${avatar.avatarID}"></th>
-							  <th th:text="${avatar.avatarName}"></th>
-							  <th th:text="${avatar.uploadedByUserID}"></th>
-							  <th>
+							  <td th:text="${avatar.avatarID}"></td>
+							  <td th:text="${avatar.avatarName}"></td>
+							  <td th:text="${avatar.uploadedByUserID}"></td>
+							  <td>
 								  <img th:src="@{${avatar.avatarUri}}" title="" style="width: 75px; height: 75px;" />
-							  </th>
+							  </td>
+							  <td>
+								  <a class="btn btn-bg btn-success btn-block" th:href="@{'users/' + ${avatar.uploadedByUserID} + '/avatars/' + ${avatar.avatarID} + '/delete'}">Delete</a>
+							  </td>
 						  </tr>
 						  </tbody>
 					  </table>
