@@ -6,7 +6,10 @@ import java.util.List;
 
 public interface AvatarDAO {
 
-    void save(long userID, Avatar avatar);
+    List<Avatar> find();
 
     List<Avatar> find(long userID);
+
+    void save(String fileName, long createdByUserID);
+
 }

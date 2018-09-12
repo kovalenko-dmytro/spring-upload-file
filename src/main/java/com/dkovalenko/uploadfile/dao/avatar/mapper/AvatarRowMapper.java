@@ -15,9 +15,7 @@ public class AvatarRowMapper implements RowMapper<Avatar> {
         return new Avatar(
                 resultSet.getLong("avatar_id"),
                 resultSet.getString("file_name"),
-                AvatarType.getByID(resultSet.getLong("file_type")),
-                resultSet.getLong("uploaded_user_id"),
-                resultSet.getBoolean("is_setting")
+                resultSet.getLong("uploaded_user_id")
         );
     }
 }

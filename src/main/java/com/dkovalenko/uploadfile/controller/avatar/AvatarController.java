@@ -2,22 +2,16 @@ package com.dkovalenko.uploadfile.controller.avatar;
 
 import com.dkovalenko.uploadfile.dto.avatar.Avatar;
 import com.dkovalenko.uploadfile.exception.StorageException;
-import com.dkovalenko.uploadfile.exception.StorageFileNotFoundException;
 import com.dkovalenko.uploadfile.service.avatar.AvatarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class AvatarController {
@@ -30,30 +24,47 @@ public class AvatarController {
     }
 
     @GetMapping(value = "users/{userID}/avatars")
-    public String find(Model model, @PathVariable(value = "userID") long userID) {
+    public ModelAndView find(@PathVariable(value = "userID") long userID) {
 
-        String view = "/pages/user-view";
+        ModelAndView view = new ModelAndView();
+        view.setViewName("/pages/user-avatars");
 
         try {
 
             List<Avatar> avatars = avatarService.find(userID);
 
             avatars.forEach(avatar -> avatar.setAvatarUri(MvcUriComponentsBuilder.fromMethodName(AvatarController.class,
-                    "serveFile", avatar.getAvatarPath().getFileName().toString()).build().toString()));
+                    "serveFile", userID, avatar.getAvatarName()).build().toString()));
 
-            model.addAttribute("avatars", avatars);
+            view.addObject("userID", userID);
+            view.addObject("avatars", avatars);
 
         } catch (StorageException e) {
 
             e.getMessage();
         }
 
+        return view;
+    }
+
+    @PostMapping(value = "users/{userID}/avatars")
+    public ModelAndView handleFileUpload(@PathVariable long userID, @RequestParam("file") MultipartFile file,
+                                         RedirectAttributes redirectAttributes) {
+
+        ModelAndView view = new ModelAndView();
+
+        avatarService.store(userID, file);
+
+        redirectAttributes.addFlashAttribute("message",
+                "You successfully uploaded " + file.getOriginalFilename() + "!");
+
+        view.setViewName("redirect:/users");
 
         return view;
     }
 
-    @GetMapping("/avatars/{avatarName:.+}")
-    public Resource serveFile(@PathVariable String avatarName) {
+    @GetMapping("users/{userID}/{avatarName:.+}")
+    public Resource serveFile(@PathVariable long userID, @PathVariable String avatarName) {
 
         return avatarService.loadAsResource(avatarName);
     }

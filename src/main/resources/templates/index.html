@@ -51,6 +51,40 @@
 					  </div>
 					  <!-- /.panel -->
 				  </div>
+				  <div class="col-lg-8 col-lg-offset-2">
+					  <div th:if="${message}">
+						  <h2 th:text="${message}"/>
+					  </div>
+
+					  <div>
+						  <form method="POST" enctype="multipart/form-data" th:action="@{'/users/' + 0 + '/avatars'}">
+							  <table>
+								  <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+								  <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+							  </table>
+						  </form>
+					  </div>
+					  <table>
+						  <thead>
+						  <tr>
+							  <th>ID</th>
+							  <th>File name</th>
+							  <th>File uploaded by user ID</th>
+							  <th>Path</th>
+							  <th>URI</th>
+						  </tr>
+						  </thead>
+						  <tbody>
+						  <tr th:if="${avatars != null}" th:each="avatar: ${avatars}">
+							  <th th:text="${avatar.avatarID}"></th>
+							  <th th:text="${avatar.avatarName}"></th>
+							  <th th:text="${avatar.uploadedByUserID}"></th>
+							  <th th:text="${avatar.avatarPath}"></th>
+							  <th th:text="${avatar.avatarUri}"></th>
+						  </tr>
+						  </tbody>
+					  </table>
+				  </div>
 			  </div>
 		  </div>
 	  </div>

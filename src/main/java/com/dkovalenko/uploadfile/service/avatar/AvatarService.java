@@ -8,11 +8,14 @@ import java.util.List;
 
 public interface AvatarService {
 
-    void init();
+    List<Avatar> find();
 
     List<Avatar> find(long userID);
+
+    void store(long userID, MultipartFile file);
 
     Resource loadAsResource(String filename);
 
     void delete();
+
 }
