@@ -58,6 +58,38 @@ public class AvatarServiceImpl implements AvatarService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    public void store(MultipartFile file) {
+
+        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+
+        try {
+
+            if (file.isEmpty()) {
+                throw new StorageException("Failed to store empty file " + filename);
+            }
+            if (filename.contains("..")) {
+
+                throw new StorageException(
+                        "Cannot store file with relative path outside current directory "
+                                + filename);
+            }
+
+            try (InputStream inputStream = file.getInputStream()) {
+
+                Files.copy(inputStream, this.rootLocation.resolve(filename),
+                        StandardCopyOption.REPLACE_EXISTING);
+
+                avatarDAO.save(filename, 0);
+
+            }
+        } catch (IOException e) {
+            throw new StorageException("Failed to store file " + filename, e);
+        }
+
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public void store(long userID, MultipartFile file) {
 
         String filename = StringUtils.cleanPath(file.getOriginalFilename());

@@ -12,10 +12,11 @@ public interface AvatarService {
 
     List<Avatar> find(long userID);
 
+    void store(MultipartFile file);
+
     void store(long userID, MultipartFile file);
 
     Resource loadAsResource(String filename);
 
     void delete();
-
 }

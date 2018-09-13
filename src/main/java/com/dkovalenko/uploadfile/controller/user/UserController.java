@@ -29,25 +29,11 @@ public class UserController {
         this.avatarService = avatarService;
     }
 
-    @GetMapping(value = "/users")
+    @GetMapping(value = "/")
     public ModelAndView find() {
         ModelAndView view = new ModelAndView();
         view.addObject("users", userService.find());
         view.setViewName("index");
-
-        try {
-
-            List<Avatar> avatars = avatarService.find();
-
-            avatars.forEach(avatar -> avatar.setAvatarUri(MvcUriComponentsBuilder.fromMethodName(AvatarController.class,
-                    "serveFile", avatar.getUploadedByUserID(), avatar.getAvatarName()).build().toString()));
-
-            view.addObject("avatars", avatars);
-
-        } catch (StorageException e) {
-
-            e.getMessage();
-        }
 
         return view;
     }

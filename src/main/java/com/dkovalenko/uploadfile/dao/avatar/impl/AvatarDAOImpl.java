@@ -40,9 +40,10 @@ public class AvatarDAOImpl implements AvatarDAO {
     @Override
     public void save(String fileName, long createdByUserID) {
 
-        Object[] params = {fileName, createdByUserID};
+        Object[] params = {fileName, createdByUserID, fileName};
 
-        jdbcTemplate.update("INSERT INTO avatars (file_name, uploaded_user_id) VALUES(?, ?)",
+        jdbcTemplate.update("INSERT INTO avatars (avatar_id, file_name, uploaded_user_id) VALUES ((SELECT max(a.avatar_id) FROM avatars a)+1, ?, ?) " +
+                        "ON DUPLICATE KEY UPDATE file_name = ?",
                 params);
     }
 }

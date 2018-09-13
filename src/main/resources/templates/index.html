@@ -39,62 +39,21 @@
 										  <th th:text="${user.firstName}"></th>
 										  <th th:text="${user.lastName}"></th>
 
-										  <td><a class="btn btn-sm btn-warning btn-block" th:href="@{'/users/' + ${user.userID} + '/view'}">Смотреть</a></td>
-										  <td><a class="btn btn-sm btn-warning btn-block" th:href="@{'/users/' + ${user.userID} + '/edit'}">Редактировать</a></td>
-										  <td><a class="btn btn-sm btn-danger btn-block" th:href="@{'/users/'  + ${user.userID} + '/delete'}">Удалить</a></td>
+										  <td><a class="btn btn-sm btn-warning btn-block" th:href="@{'/users/' + ${user.userID} + '/view'}">View</a></td>
+										  <td><a class="btn btn-sm btn-warning btn-block" th:href="@{'/users/' + ${user.userID} + '/edit'}">Edit</a></td>
+										  <td><a class="btn btn-sm btn-danger btn-block" th:href="@{'/users/'  + ${user.userID} + '/delete'}">Delete</a></td>
 									  </tr>
 									  </tbody>
 								  </table>
-								  <a class="btn btn-bg btn-success btn-block" th:href="@{'/users/create'}">Создать</a>
+								  <a class="btn btn-bg btn-success btn-block" th:href="@{'/users/create'}">Create</a>
+								  <a class="btn btn-bg btn-success btn-block" th:href="@{'/users/avatars'}">View Avatars</a>
 							  </div>
 						  </div>
 						  <!-- /.panel-body -->
 					  </div>
 					  <!-- /.panel -->
 				  </div>
-				  <div class="col-lg-8 col-lg-offset-2">
-					  <div th:if="${message}">
-						  <h2 th:text="${message}"/>
-					  </div>
 
-					  <div>
-						  <form  method="POST" enctype="multipart/form-data" th:action="@{'/users/avatars'}">
-							  <div class="form-group">
-								  <input name="userID" th:value="${'0'}" th:attr="hidden='hidden text'" >
-							  </div>
-							  <div class="form-group">
-								  <input type="file" name="file" />
-							  </div>
-							  <div class="form-group">
-								  <input type="submit" value="Upload" />
-							  </div>
-						  </form>
-					  </div>
-					  <table class="table table-bordered table-hover">
-						  <thead>
-						  <tr>
-							  <th>ID</th>
-							  <th>File name</th>
-							  <th>File uploaded by user ID</th>
-							  <th>URI</th>
-							  <th colspan="1"></th>
-						  </tr>
-						  </thead>
-						  <tbody>
-						  <tr th:if="${avatars != null}" th:each="avatar: ${avatars}">
-							  <td th:text="${avatar.avatarID}"></td>
-							  <td th:text="${avatar.avatarName}"></td>
-							  <td th:text="${avatar.uploadedByUserID}"></td>
-							  <td>
-								  <img th:src="@{${avatar.avatarUri}}" title="" style="width: 75px; height: 75px;" />
-							  </td>
-							  <td>
-								  <a class="btn btn-bg btn-success btn-block" th:href="@{'users/' + ${avatar.uploadedByUserID} + '/avatars/' + ${avatar.avatarID} + '/delete'}">Delete</a>
-							  </td>
-						  </tr>
-						  </tbody>
-					  </table>
-				  </div>
 			  </div>
 		  </div>
 	  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
