@@ -1,8 +1,10 @@
 package com.dkovalenko.uploadfile.service.avatar.impl;
 
 import com.dkovalenko.uploadfile.dao.avatar.AvatarDAO;
+import com.dkovalenko.uploadfile.dao.user.UserDAO;
 import com.dkovalenko.uploadfile.dto.avatar.Avatar;
 import com.dkovalenko.uploadfile.dto.property.StorageProperties;
+import com.dkovalenko.uploadfile.dto.user.User;
 import com.dkovalenko.uploadfile.exception.StorageException;
 import com.dkovalenko.uploadfile.exception.StorageFileNotFoundException;
 import com.dkovalenko.uploadfile.service.avatar.AvatarService;
@@ -30,11 +32,16 @@ import java.util.stream.Stream;
 public class AvatarServiceImpl implements AvatarService {
 
     private final AvatarDAO avatarDAO;
+    private final UserDAO userDAO;
     private final Path rootLocation;
 
     @Autowired
-    public AvatarServiceImpl(AvatarDAO avatarDAO, StorageProperties properties) {
+    public AvatarServiceImpl(AvatarDAO avatarDAO,
+                             UserDAO userDAO,
+                             StorageProperties properties) {
+
         this.avatarDAO = avatarDAO;
+        this.userDAO = userDAO;
         this.rootLocation = Paths.get(properties.getLocation());
     }
 
@@ -176,9 +183,19 @@ public class AvatarServiceImpl implements AvatarService {
 
             if (avatar != null) {
 
+                User user = userDAO.find()
+                        .stream()
+                        .filter(u -> u.getAvatar() != null && u.getAvatar().getAvatarID() == avatarID)
+                        .findFirst()
+                        .orElse(null);
+
                 Files.delete(rootLocation.resolve(avatar.getAvatarName()));
 
                 avatarDAO.delete(avatar.getAvatarID());
+
+                if(user != null) {
+                    userDAO.resetAvatar(user.getUserID());
+                }
             }
 
         } catch (IOException e) {
@@ -201,9 +218,17 @@ public class AvatarServiceImpl implements AvatarService {
         try {
 
             if (avatar != null && avatar.getUploadedByUserID() != 0) {
+
+                User user = userDAO.find(userID);
+
                 Files.delete(rootLocation.resolve(avatar.getAvatarName()));
 
                 avatarDAO.delete(avatar.getAvatarID());
+
+                if(user != null  && user.getAvatar() != null && user.getAvatar().getAvatarID() == avatarID) {
+                    userDAO.resetAvatar(userID);
+                }
+
             } else {
                 throw new StorageException(
                         "Could not delete default file");
