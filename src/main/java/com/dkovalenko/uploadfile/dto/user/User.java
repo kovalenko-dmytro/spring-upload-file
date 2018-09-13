@@ -15,5 +15,11 @@ public class User {
     private long userID;
     private String firstName;
     private String lastName;
+    private Avatar avatar;
 
+    public User(long userID, String firstName, String lastName) {
+        this.userID = userID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 }

@@ -21,6 +21,11 @@
 						  </div>
 						  <div class="panel-body">
 							  <dl th:if="${user != null}" class="dl-horizontal">
+								  <dt>Avatar:</dt>
+								  <dd >
+									  <img th:if="${user.avatar != null}" th:src="@{${user.avatar.avatarUri}}" title="" style="width: 75px; height: 75px;" />
+								  </dd>
+								  <a class="btn btn-bg btn-success btn-block" th:href="@{'/users/' + ${user.userID} + '/setAvatar'}">Set avatar</a>
 								  <dt>ID:</dt>
 								  <dd th:text="${user.userID}"></dd>
 								  <dt>Имя:</dt>

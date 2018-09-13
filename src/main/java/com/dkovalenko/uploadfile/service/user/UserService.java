@@ -15,4 +15,6 @@ public interface UserService {
     User update(long userID, User user);
 
     void delete(long userID);
+
+    void saveAvatar(long userID, long avatarID);
 }

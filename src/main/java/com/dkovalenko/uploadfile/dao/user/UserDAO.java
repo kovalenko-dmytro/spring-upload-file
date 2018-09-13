@@ -15,4 +15,6 @@ public interface UserDAO {
     void delete(long userID);
 
     void update(String firstName, String lastName, long userID);
+
+    void saveAvatar(long userID, long avatarID);
 }

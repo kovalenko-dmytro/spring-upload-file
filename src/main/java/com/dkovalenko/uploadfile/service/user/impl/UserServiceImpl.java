@@ -86,4 +86,10 @@ public class UserServiceImpl implements UserService {
     public void delete(long userID) {
         userDAO.delete(userID);
     }
+
+    @Override
+    public void saveAvatar(long userID, long avatarID) {
+
+        userDAO.saveAvatar(userID, avatarID);
+    }
 }

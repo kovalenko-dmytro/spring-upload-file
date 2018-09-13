@@ -13,23 +13,19 @@
     <div class="container fluid">
         <div class="row justify-content-center">
             <div class="col-lg-6 col-lg-offset-3">
-                <div class="panel panel-default">
-                    <div class="panel-heading text-center">
-                        <h3 class="text-center">Редактировать юзера</h3>
-                    </div>
-                    <!-- /.panel-heading -->
-                    <div class="panel-body">
-                        <form role="form" method="POST" enctype="multipart/form-data" th:action="@{'/users/' + ${user.userID} + '/addAvatar'}">
+                       <form role="form" method="POST" enctype="multipart/form-data" th:action="@{'/users/' + ${user.userID} + '/setAvatar'}">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                            <fieldset>
                                 <div class="form-group">
-                                    <input type="file" class="form-control" name="file" />
+                                    <select id="avatar" name="avatar" class="form-control">
+                                        <option th:if="${avatars != null}"
+                                                th:each="avatar: ${avatars}"
+                                                th:value="${avatar.avatarID}"
+                                                th:text="${avatar.avatarName}">
+                                        </option>
+                                    </select>
                                 </div>
-                                <button class="btn btn-lg btn-success btn-block" type="submit">Сохранить</button>
-                            </fieldset>
+                                <button class="btn btn-lg btn-success btn-block" type="submit">Save</button>
                         </form>
-                    </div>
-                    <!-- /.panel-body -->
                 </div>
             </div>
         </div>

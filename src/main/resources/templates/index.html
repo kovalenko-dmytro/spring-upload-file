@@ -30,16 +30,19 @@
 										  <th>ID</th>
 										  <th>Name</th>
 										  <th>Last Name</th>
+										  <th>Avatar</th>
 										  <th colspan="3"></th>
 									  </tr>
 									  </thead>
 									  <tbody>
 									  <tr th:if="${users != null}" th:each="user: ${users}">
-										  <th th:text="${user.userID}"></th>
-										  <th th:text="${user.firstName}"></th>
-										  <th th:text="${user.lastName}"></th>
-
-										  <td><a class="btn btn-sm btn-warning btn-block" th:href="@{'/users/' + ${user.userID} + '/view'}">View</a></td>
+										  <td th:text="${user.userID}"></td>
+										  <td th:text="${user.firstName}"></td>
+										  <td th:text="${user.lastName}"></td>
+										  <td>
+											  <img th:if="${user.avatar != null}" th:src="@{${user.avatar.avatarUri}}" title="" style="width: 75px; height: 75px;" />
+										  </td>
+										  <td><a class="btn btn-sm btn-warning btn-block" th:href="@{'/users/' + ${user.userID}}">View</a></td>
 										  <td><a class="btn btn-sm btn-warning btn-block" th:href="@{'/users/' + ${user.userID} + '/edit'}">Edit</a></td>
 										  <td><a class="btn btn-sm btn-danger btn-block" th:href="@{'/users/'  + ${user.userID} + '/delete'}">Delete</a></td>
 									  </tr>

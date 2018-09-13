@@ -1,13 +1,19 @@
 package com.dkovalenko.uploadfile.controller.user;
 
+import com.dkovalenko.uploadfile.controller.avatar.AvatarController;
+import com.dkovalenko.uploadfile.dto.avatar.Avatar;
 import com.dkovalenko.uploadfile.dto.user.User;
+import com.dkovalenko.uploadfile.exception.StorageException;
 import com.dkovalenko.uploadfile.service.avatar.AvatarService;
 import com.dkovalenko.uploadfile.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -23,17 +29,57 @@ public class UserController {
 
     @GetMapping(value = "/")
     public ModelAndView find() {
+
         ModelAndView view = new ModelAndView();
-        view.addObject("users", userService.find());
+
+        List<User> users = userService.find();
+
+        users.forEach(user -> {
+
+            if (user.getAvatar() != null) {
+
+                try {
+
+                    user.getAvatar().setAvatarUri(MvcUriComponentsBuilder.fromMethodName(AvatarController.class,
+                            "serveFile", user.getAvatar().getAvatarName()).build().toString());
+
+                } catch (StorageException e) {
+
+                    e.getMessage();
+                }
+            }
+
+        });
+
+        view.addObject("users", users);
         view.setViewName("index");
 
         return view;
     }
 
-    @GetMapping(value = "/users/{userID}/view")
+    @GetMapping(value = "/users/{userID}")
     public ModelAndView find(@PathVariable(value = "userID") long userID) {
+
         ModelAndView view = new ModelAndView();
-        view.addObject("user", userService.find(userID));
+
+        User user = userService.find(userID);
+
+        if (user.getAvatar() != null) {
+
+            try {
+
+                user.getAvatar().setAvatarUri(MvcUriComponentsBuilder.fromMethodName(AvatarController.class,
+                        "serveFile", user.getAvatar().getAvatarName()).build().toString());
+
+
+
+            } catch (StorageException e) {
+
+                e.getMessage();
+            }
+        }
+
+        view.addObject("user", user);
         view.setViewName("/pages/user-view");
         return view;
     }
@@ -86,6 +132,28 @@ public class UserController {
 
         view.setViewName("redirect:/users");
 
+        return view;
+    }
+
+    @GetMapping(value = "/users/{userID}/setAvatar")
+    public ModelAndView setAvatar(@PathVariable(value = "userID") long userID) {
+
+        ModelAndView view = new ModelAndView();
+        view.addObject("user", userService.find(userID));
+        view.addObject("avatars", avatarService.find(userID));
+        view.setViewName("/pages/user-add-avatar");
+        return view;
+    }
+
+    @PostMapping(value = "/users/{userID}/setAvatar")
+    public ModelAndView saveAvatar(@PathVariable(value = "userID") long userID,
+                                   @RequestParam(value = "avatar") long avatarID) {
+
+        ModelAndView view = new ModelAndView();
+
+        userService.saveAvatar(userID, avatarID);
+
+        view.setViewName("redirect:/users/" + userID + "");
         return view;
     }
 }

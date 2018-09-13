@@ -22,8 +22,9 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public List<User> find() {
 
-        return jdbcTemplate.query("SELECT u.user_id, u.first_name, u.last_name  " +
-                "FROM users u ",
+        return jdbcTemplate.query("SELECT u.user_id, u.first_name, u.last_name, a.avatar_id, a.file_name, a.uploaded_user_id  " +
+                "FROM users u " +
+                "LEFT JOIN avatars a ON u.avatar_id = a.avatar_id",
                 new UserRowMapper());
     }
 
@@ -32,8 +33,9 @@ public class UserDAOImpl implements UserDAO {
 
         Object[] params = {userID};
 
-        return jdbcTemplate.queryForObject("SELECT u.user_id, u.first_name, u.last_name " +
+        return jdbcTemplate.queryForObject("SELECT u.user_id, u.first_name, u.last_name, a.avatar_id, a.file_name, a.uploaded_user_id " +
                 "FROM users u " +
+                        "LEFT JOIN avatars a ON u.avatar_id = a.avatar_id " +
                 "WHERE u.user_id = ?",
                 params,
                 new UserRowMapper());
@@ -63,6 +65,14 @@ public class UserDAOImpl implements UserDAO {
 
         jdbcTemplate.update("UPDATE users SET first_name = ?, last_name = ? WHERE user_id = ?", params);
 
+    }
+
+    @Override
+    public void saveAvatar(long userID, long avatarID) {
+
+        Object[] params = {avatarID, userID};
+
+        jdbcTemplate.update("UPDATE users SET avatar_id = ? WHERE user_id = ?", params);
     }
 
 }
