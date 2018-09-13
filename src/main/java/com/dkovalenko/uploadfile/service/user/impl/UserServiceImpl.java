@@ -92,4 +92,10 @@ public class UserServiceImpl implements UserService {
 
         userDAO.saveAvatar(userID, avatarID);
     }
+
+    @Override
+    public void resetAvatar(long userID) {
+
+        userDAO.resetAvatar(userID);
+    }
 }

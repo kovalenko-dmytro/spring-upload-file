@@ -17,4 +17,6 @@ public interface UserService {
     void delete(long userID);
 
     void saveAvatar(long userID, long avatarID);
+
+    void resetAvatar(long userID);
 }

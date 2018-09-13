@@ -75,4 +75,12 @@ public class UserDAOImpl implements UserDAO {
         jdbcTemplate.update("UPDATE users SET avatar_id = ? WHERE user_id = ?", params);
     }
 
+    @Override
+    public void resetAvatar(long userID) {
+
+        Object[] params = {userID};
+
+        jdbcTemplate.update("UPDATE users SET avatar_id = 0 WHERE user_id = ?", params);
+    }
+
 }

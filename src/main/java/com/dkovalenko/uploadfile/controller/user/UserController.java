@@ -154,6 +154,19 @@ public class UserController {
         userService.saveAvatar(userID, avatarID);
 
         view.setViewName("redirect:/users/" + userID + "");
+
+        return view;
+    }
+
+    @GetMapping(value = "/users/{userID}/resetAvatar")
+    public ModelAndView resetAvatar(@PathVariable(value = "userID") long userID) {
+
+        ModelAndView view = new ModelAndView();
+
+        userService.resetAvatar(userID);
+
+        view.setViewName("redirect:/users/" + userID + "");
+
         return view;
     }
 }

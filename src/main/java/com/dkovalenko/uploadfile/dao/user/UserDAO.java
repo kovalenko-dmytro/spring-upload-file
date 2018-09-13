@@ -17,4 +17,6 @@ public interface UserDAO {
     void update(String firstName, String lastName, long userID);
 
     void saveAvatar(long userID, long avatarID);
+
+    void resetAvatar(long userID);
 }

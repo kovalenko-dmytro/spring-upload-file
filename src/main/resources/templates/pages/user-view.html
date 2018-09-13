@@ -24,6 +24,7 @@
 								  <dt>Avatar:</dt>
 								  <dd >
 									  <img th:if="${user.avatar != null}" th:src="@{${user.avatar.avatarUri}}" title="" style="width: 75px; height: 75px;" />
+									  <a th:if="${user.avatar != null}" class="btn btn-bg btn-danger btn-block" th:href="@{'/users/' + ${user.userID} + '/resetAvatar'}">Reset avatar</a>
 								  </dd>
 								  <a class="btn btn-bg btn-success btn-block" th:href="@{'/users/' + ${user.userID} + '/setAvatar'}">Set avatar</a>
 								  <dt>ID:</dt>

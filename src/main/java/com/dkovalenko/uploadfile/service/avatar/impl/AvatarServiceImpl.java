@@ -1,31 +1,23 @@
 package com.dkovalenko.uploadfile.service.avatar.impl;
 
-import com.dkovalenko.uploadfile.controller.avatar.AvatarController;
 import com.dkovalenko.uploadfile.dao.avatar.AvatarDAO;
 import com.dkovalenko.uploadfile.dto.avatar.Avatar;
 import com.dkovalenko.uploadfile.dto.property.StorageProperties;
 import com.dkovalenko.uploadfile.exception.StorageException;
 import com.dkovalenko.uploadfile.exception.StorageFileNotFoundException;
 import com.dkovalenko.uploadfile.service.avatar.AvatarService;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
