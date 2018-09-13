@@ -35,7 +35,7 @@ public class AvatarController {
             List<Avatar> avatars = avatarService.find(userID);
 
             avatars.forEach(avatar -> avatar.setAvatarUri(MvcUriComponentsBuilder.fromMethodName(AvatarController.class,
-                    "serveFile", userID, avatar.getAvatarName()).build().toString()));
+                    "serveFile", avatar.getAvatarName()).build().toString()));
 
             view.addObject("userID", userID);
             view.addObject("avatars", avatars);
@@ -65,8 +65,8 @@ public class AvatarController {
         return view;
     }
 
-    @GetMapping("users/{userID}/{avatarName:.+}")
-    public Resource serveFile(@PathVariable long userID, @PathVariable String avatarName) {
+    @GetMapping("upload-avatars/{avatarName:.+}")
+    public Resource serveFile(@PathVariable String avatarName) {
 
         return avatarService.loadAsResource(avatarName);
     }

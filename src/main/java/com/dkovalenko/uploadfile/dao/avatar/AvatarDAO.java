@@ -12,4 +12,5 @@ public interface AvatarDAO {
 
     void save(String fileName, long createdByUserID);
 
+    void delete(long avatarID);
 }

@@ -33,7 +33,7 @@ public class AdminAvatarController {
             List<Avatar> avatars = avatarService.find();
 
             avatars.forEach(avatar -> avatar.setAvatarUri(MvcUriComponentsBuilder.fromMethodName(AvatarController.class,
-                    "serveFile", avatar.getUploadedByUserID(), avatar.getAvatarName()).build().toString()));
+                    "serveFile", avatar.getAvatarName()).build().toString()));
 
             view.addObject("avatars", avatars);
 
@@ -55,6 +55,23 @@ public class AdminAvatarController {
 
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
+
+        view.setViewName("redirect:/users/avatars");
+
+        return view;
+    }
+
+    @GetMapping(value = "users/avatars/{avatarID}/delete")
+    public ModelAndView delete(@PathVariable(value = "avatarID") long avatarID,
+                               RedirectAttributes redirectAttributes) {
+
+        ModelAndView view = new ModelAndView();
+
+
+        avatarService.delete(avatarID);
+
+        redirectAttributes.addFlashAttribute("message",
+                "You successfully deleted file");
 
         view.setViewName("redirect:/users/avatars");
 

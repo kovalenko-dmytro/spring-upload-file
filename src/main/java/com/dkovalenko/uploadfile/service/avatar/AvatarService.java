@@ -19,4 +19,6 @@ public interface AvatarService {
     Resource loadAsResource(String filename);
 
     void delete();
+
+    void delete(long avatarID);
 }

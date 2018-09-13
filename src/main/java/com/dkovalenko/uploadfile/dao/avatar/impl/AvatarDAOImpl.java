@@ -46,4 +46,12 @@ public class AvatarDAOImpl implements AvatarDAO {
                         "ON DUPLICATE KEY UPDATE file_name = ?",
                 params);
     }
+
+    @Override
+    public void delete(long avatarID) {
+
+        Object[] params = {avatarID};
+
+        jdbcTemplate.update("DELETE FROM avatars WHERE avatar_id = ?", params);
+    }
 }

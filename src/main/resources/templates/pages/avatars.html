@@ -50,7 +50,7 @@
 								  <img th:src="@{${avatar.avatarUri}}" title="" style="width: 75px; height: 75px;" />
 							  </td>
 							  <td>
-								  <a class="btn btn-bg btn-success btn-block" th:href="@{'users/avatars/' + ${avatar.avatarID} + '/delete'}">Delete</a>
+								  <a class="btn btn-bg btn-success btn-block" th:href="@{'/users/avatars/' + ${avatar.avatarID} + '/delete'}">Delete</a>
 							  </td>
 						  </tr>
 						  </tbody>
