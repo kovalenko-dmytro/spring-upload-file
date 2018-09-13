@@ -113,17 +113,11 @@ public class AvatarServiceImpl implements AvatarService {
 
                 Files.copy(inputStream, this.rootLocation.resolve(filename),
                         StandardCopyOption.REPLACE_EXISTING);
+
                 avatarDAO.save(filename, userID);
 
-                boolean isUploadedByUserAvatarsExisting =
-                        avatarDAO
-                                .find(userID)
-                                .stream()
-                                .anyMatch(avatar -> avatar.getUploadedByUserID() == userID);
+                //take money for upload file
 
-                if (userID != 0 && isUploadedByUserAvatarsExisting) {
-                    //get vip money from user
-                }
             }
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + filename, e);
@@ -180,13 +174,48 @@ public class AvatarServiceImpl implements AvatarService {
     @Transactional(rollbackFor = Exception.class)
     public void delete(long avatarID) {
 
-        Avatar avatar = avatarDAO.find().stream().filter(a -> a.getAvatarID() == avatarID).findFirst().get();
+        Avatar avatar = avatarDAO.find()
+                .stream()
+                .filter(a -> a.getAvatarID() == avatarID)
+                .findFirst()
+                .orElse(null);
 
         try {
 
-            Files.delete(rootLocation.resolve(avatar.getAvatarName()));
+            if (avatar != null) {
 
-            avatarDAO.delete(avatar.getAvatarID());
+                Files.delete(rootLocation.resolve(avatar.getAvatarName()));
+
+                avatarDAO.delete(avatar.getAvatarID());
+            }
+
+        } catch (IOException e) {
+
+            throw new StorageFileNotFoundException(
+                    "Could not delete file with id: " + avatar.getAvatarID());
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(long userID, long avatarID) {
+
+        Avatar avatar = avatarDAO.find()
+                .stream()
+                .filter(a -> a.getUploadedByUserID() == userID && a.getAvatarID() == avatarID)
+                .findFirst()
+                .orElse(null);
+
+        try {
+
+            if (avatar != null && avatar.getUploadedByUserID() != 0) {
+                Files.delete(rootLocation.resolve(avatar.getAvatarName()));
+
+                avatarDAO.delete(avatar.getAvatarID());
+            } else {
+                throw new StorageException(
+                        "Could not delete default file");
+            }
 
         } catch (IOException e) {
 

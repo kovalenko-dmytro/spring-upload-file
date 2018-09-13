@@ -53,6 +53,8 @@ public class AvatarController {
                                          @PathVariable(value = "userID") long userID,
                                          RedirectAttributes redirectAttributes) {
 
+        System.out.println(userID);
+
         ModelAndView view = new ModelAndView();
 
         avatarService.store(userID, file);
@@ -60,7 +62,26 @@ public class AvatarController {
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
-        view.setViewName("redirect:/users");
+        view.setViewName("redirect:/users/" + userID + "/avatars");
+
+        return view;
+    }
+
+    @GetMapping(value = "users/{userID}/avatars/{avatarID}/delete")
+    public ModelAndView delete(@PathVariable(value = "userID") long userID,
+                               @PathVariable(value = "avatarID") long avatarID,
+                               RedirectAttributes redirectAttributes) {
+
+        ModelAndView view = new ModelAndView();
+
+        if (userID != 0) {
+            avatarService.delete(userID, avatarID);
+
+            redirectAttributes.addFlashAttribute("message",
+                    "You successfully deleted file");
+        }
+
+        view.setViewName("redirect:/users/" + userID + "/avatars");
 
         return view;
     }

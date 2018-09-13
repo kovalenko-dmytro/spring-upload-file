@@ -20,10 +20,7 @@
                 </div>
 
                 <div>
-                    <form  method="POST" enctype="multipart/form-data" th:action="@{'/users/avatars'}">
-                        <div class="form-group">
-                            <input type="text" name="userID" id="userID" th:value="${userID}" th:attr="hidden='hidden'">
-                        </div>
+                    <form  method="POST" enctype="multipart/form-data" th:action="@{'/users/' + ${userID} + '/avatars'}">
                         <div class="form-group">
                             <input type="file" name="file" />
                         </div>
@@ -51,7 +48,7 @@
                             <img th:src="@{${avatar.avatarUri}}" title="" style="width: 75px; height: 75px;" />
                         </td>
                         <td >
-                            <a class="btn btn-bg btn-success btn-block" th:href="@{'avatars/' + ${avatar.avatarID} + '/delete'}">Delete</a>
+                            <a class="btn btn-bg btn-success btn-block" th:href="@{'/users/' + ${userID} + '/avatars/' + ${avatar.avatarID} + '/delete'}">Delete</a>
                         </td>
                     </tr>
                     </tbody>
