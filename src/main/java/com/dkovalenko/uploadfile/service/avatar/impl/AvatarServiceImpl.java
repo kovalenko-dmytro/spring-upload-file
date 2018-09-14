@@ -131,24 +131,6 @@ public class AvatarServiceImpl implements AvatarService {
         }
     }
 
-
-    private List<Path> loadAll(List<Avatar> avatars) {
-        try {
-
-            Stream<Path> result = Files.walk(this.rootLocation, 1)
-                    .filter(path -> !path.equals(this.rootLocation))
-                    .map(this.rootLocation::relativize)
-                    .filter(path -> avatars
-                            .stream()
-                            .anyMatch(avatar -> avatar.getAvatarName().equals(path.getFileName().toString())));
-
-            return result.collect(Collectors.toList());
-        } catch (IOException e) {
-            throw new StorageException("Failed to read stored files", e);
-        }
-
-    }
-
     public Resource loadAsResource(String filename) {
 
         try {

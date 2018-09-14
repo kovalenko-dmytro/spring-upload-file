@@ -1,7 +1,6 @@
 package com.dkovalenko.uploadfile.controller.user;
 
 import com.dkovalenko.uploadfile.controller.avatar.AvatarController;
-import com.dkovalenko.uploadfile.dto.avatar.Avatar;
 import com.dkovalenko.uploadfile.dto.user.User;
 import com.dkovalenko.uploadfile.exception.StorageException;
 import com.dkovalenko.uploadfile.service.avatar.AvatarService;
@@ -99,7 +98,7 @@ public class UserController {
         ModelAndView view = new ModelAndView();
 
         userService.save(user);
-        view.setViewName("redirect:/users");
+        view.setViewName("redirect:/");
         return view;
     }
 
@@ -119,7 +118,7 @@ public class UserController {
         ModelAndView view = new ModelAndView();
 
         userService.update(userID, user);
-        view.setViewName("redirect:/users");
+        view.setViewName("redirect:/");
         return view;
     }
 
@@ -130,7 +129,7 @@ public class UserController {
 
         userService.delete(userID);
 
-        view.setViewName("redirect:/users");
+        view.setViewName("redirect:/");
 
         return view;
     }
