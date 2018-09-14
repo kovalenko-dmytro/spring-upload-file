@@ -23,4 +23,8 @@ public interface AvatarService {
     void delete(long avatarID);
 
     void delete(long userID, long avatarID);
+
+    void setAvatarCounterIncrement(long userID);
+
+    int getSetAvatarCounter(long userID);
 }

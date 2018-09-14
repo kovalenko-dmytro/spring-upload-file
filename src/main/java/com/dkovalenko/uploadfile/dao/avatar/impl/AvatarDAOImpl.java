@@ -54,4 +54,23 @@ public class AvatarDAOImpl implements AvatarDAO {
 
         jdbcTemplate.update("DELETE FROM avatars WHERE avatar_id = ?", params);
     }
+
+    @Override
+    public void setAvatarCounterIncrement(long userID) {
+
+        Object[] params = {userID};
+        jdbcTemplate.update("INSERT INTO set_avatar_counter (user_id, count) VALUES (?, 1) " +
+                        "ON DUPLICATE KEY UPDATE count = count + 1",
+                params);
+    }
+
+    @Override
+    public int getSetAvatarCounter(long userID) {
+
+        Object[] params = {userID};
+
+        return jdbcTemplate.queryForObject("SELECT count FROM set_avatar_counter WHERE user_id = ?",
+                params,
+                Integer.class);
+    }
 }

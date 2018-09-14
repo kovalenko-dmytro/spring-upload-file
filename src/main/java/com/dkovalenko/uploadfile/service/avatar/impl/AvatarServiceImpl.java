@@ -240,4 +240,16 @@ public class AvatarServiceImpl implements AvatarService {
                     "Could not delete file with id: " + avatar.getAvatarID());
         }
     }
+
+    @Override
+    public void setAvatarCounterIncrement(long userID) {
+
+        avatarDAO.setAvatarCounterIncrement(userID);
+    }
+
+    @Override
+    public int getSetAvatarCounter(long userID) {
+
+        return  avatarDAO.getSetAvatarCounter(userID);
+    }
 }
