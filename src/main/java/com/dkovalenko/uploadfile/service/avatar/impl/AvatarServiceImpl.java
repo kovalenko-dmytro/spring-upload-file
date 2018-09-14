@@ -24,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -63,6 +64,7 @@ public class AvatarServiceImpl implements AvatarService {
     public void store(MultipartFile file) {
 
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
+        System.out.println(filename);
 
         try {
 
@@ -75,6 +77,8 @@ public class AvatarServiceImpl implements AvatarService {
                         "Cannot store file with relative path outside current directory "
                                 + filename);
             }
+
+            filename = "def_" + String.valueOf(new Date().getTime()) + filename.substring(filename.indexOf('.'));
 
             try (InputStream inputStream = file.getInputStream()) {
 
@@ -94,6 +98,8 @@ public class AvatarServiceImpl implements AvatarService {
     @Transactional(rollbackFor = Exception.class)
     public void store(long userID, MultipartFile file) {
 
+        String userName = userDAO.find(userID).getFirstName();
+
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
 
         try {
@@ -107,6 +113,8 @@ public class AvatarServiceImpl implements AvatarService {
                         "Cannot store file with relative path outside current directory "
                                 + filename);
             }
+
+            filename = userName + "_" + String.valueOf(new Date().getTime()) + filename.substring(filename.indexOf('.'));
 
             try (InputStream inputStream = file.getInputStream()) {
 
