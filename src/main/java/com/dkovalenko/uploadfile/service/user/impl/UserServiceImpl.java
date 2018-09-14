@@ -1,11 +1,14 @@
 package com.dkovalenko.uploadfile.service.user.impl;
 
+import com.dkovalenko.uploadfile.controller.avatar.AvatarController;
 import com.dkovalenko.uploadfile.dao.user.UserDAO;
 import com.dkovalenko.uploadfile.dto.user.User;
+import com.dkovalenko.uploadfile.exception.StorageException;
 import com.dkovalenko.uploadfile.service.avatar.AvatarService;
 import com.dkovalenko.uploadfile.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.util.List;
 
@@ -24,13 +27,48 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> find() {
 
-        return userDAO.find();
+        List<User> users = userDAO.find();
+
+        users.forEach(user -> {
+
+            if (user.getAvatar() != null) {
+
+                try {
+
+                    user.getAvatar().setAvatarUri(MvcUriComponentsBuilder.fromMethodName(AvatarController.class,
+                            "serveFile", user.getAvatar().getAvatarName()).build().toString());
+
+                } catch (StorageException e) {
+
+                    e.getMessage();
+                }
+            }
+
+        });
+
+        return users;
     }
 
     @Override
     public User find(long userID) {
 
-        return userDAO.find(userID);
+        User user = userDAO.find(userID);
+
+        if (user.getAvatar() != null) {
+
+            try {
+
+                user.getAvatar().setAvatarUri(MvcUriComponentsBuilder.fromMethodName(AvatarController.class,
+                        "serveFile", user.getAvatar().getAvatarName()).build().toString());
+
+
+            } catch (StorageException e) {
+
+                e.getMessage();
+            }
+        }
+
+        return user;
     }
 
     @Override

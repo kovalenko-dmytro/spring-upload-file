@@ -8,7 +8,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -32,9 +31,6 @@ public class AvatarController {
         try {
 
             List<Avatar> avatars = avatarService.find(userID);
-
-            avatars.forEach(avatar -> avatar.setAvatarUri(MvcUriComponentsBuilder.fromMethodName(AvatarController.class,
-                    "serveFile", avatar.getAvatarName()).build().toString()));
 
             view.addObject("userID", userID);
             view.addObject("avatars", avatars);

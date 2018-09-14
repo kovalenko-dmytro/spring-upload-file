@@ -1,5 +1,6 @@
 package com.dkovalenko.uploadfile.service.avatar.impl;
 
+import com.dkovalenko.uploadfile.controller.avatar.AvatarController;
 import com.dkovalenko.uploadfile.dao.avatar.AvatarDAO;
 import com.dkovalenko.uploadfile.dao.user.UserDAO;
 import com.dkovalenko.uploadfile.dto.avatar.Avatar;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,8 +28,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class AvatarServiceImpl implements AvatarService {
@@ -50,13 +50,23 @@ public class AvatarServiceImpl implements AvatarService {
     @Override
     public List<Avatar> find() {
 
-        return avatarDAO.find();
+        List<Avatar> avatars = avatarDAO.find();
+
+        avatars.forEach(avatar -> avatar.setAvatarUri(MvcUriComponentsBuilder.fromMethodName(AvatarController.class,
+                "serveFile", avatar.getAvatarName()).build().toString()));
+
+        return avatars;
     }
 
     @Override
     public List<Avatar> find(long userID) {
 
-        return avatarDAO.find(userID);
+        List<Avatar> avatars = avatarDAO.find(userID);
+
+        avatars.forEach(avatar -> avatar.setAvatarUri(MvcUriComponentsBuilder.fromMethodName(AvatarController.class,
+                "serveFile", avatar.getAvatarName()).build().toString()));
+
+        return avatars;
     }
 
     @Override
@@ -64,7 +74,6 @@ public class AvatarServiceImpl implements AvatarService {
     public void store(MultipartFile file) {
 
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
-        System.out.println(filename);
 
         try {
 

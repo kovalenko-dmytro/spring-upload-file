@@ -32,9 +32,6 @@ public class AdminAvatarController {
 
             List<Avatar> avatars = avatarService.find();
 
-            avatars.forEach(avatar -> avatar.setAvatarUri(MvcUriComponentsBuilder.fromMethodName(AvatarController.class,
-                    "serveFile", avatar.getAvatarName()).build().toString()));
-
             view.addObject("avatars", avatars);
 
         } catch (StorageException e) {

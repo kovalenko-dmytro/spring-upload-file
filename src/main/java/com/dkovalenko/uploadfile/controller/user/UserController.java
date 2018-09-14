@@ -1,15 +1,12 @@
 package com.dkovalenko.uploadfile.controller.user;
 
-import com.dkovalenko.uploadfile.controller.avatar.AvatarController;
 import com.dkovalenko.uploadfile.dto.user.User;
-import com.dkovalenko.uploadfile.exception.StorageException;
 import com.dkovalenko.uploadfile.service.avatar.AvatarService;
 import com.dkovalenko.uploadfile.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -33,23 +30,6 @@ public class UserController {
 
         List<User> users = userService.find();
 
-        users.forEach(user -> {
-
-            if (user.getAvatar() != null) {
-
-                try {
-
-                    user.getAvatar().setAvatarUri(MvcUriComponentsBuilder.fromMethodName(AvatarController.class,
-                            "serveFile", user.getAvatar().getAvatarName()).build().toString());
-
-                } catch (StorageException e) {
-
-                    e.getMessage();
-                }
-            }
-
-        });
-
         view.addObject("users", users);
         view.setViewName("index");
 
@@ -62,21 +42,6 @@ public class UserController {
         ModelAndView view = new ModelAndView();
 
         User user = userService.find(userID);
-
-        if (user.getAvatar() != null) {
-
-            try {
-
-                user.getAvatar().setAvatarUri(MvcUriComponentsBuilder.fromMethodName(AvatarController.class,
-                        "serveFile", user.getAvatar().getAvatarName()).build().toString());
-
-
-
-            } catch (StorageException e) {
-
-                e.getMessage();
-            }
-        }
 
         view.addObject("user", user);
         view.setViewName("/pages/user-view");
