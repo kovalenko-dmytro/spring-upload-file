@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -23,7 +24,7 @@ public class AdminAvatarController {
     }
 
     @GetMapping(value = "users/avatars")
-    public ModelAndView find() {
+    public ModelAndView find(HttpServletRequest request) {
 
         ModelAndView view = new ModelAndView();
         view.setViewName("/pages/avatars");
@@ -31,6 +32,10 @@ public class AdminAvatarController {
         try {
 
             List<Avatar> avatars = avatarService.find();
+
+            String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/avatars/";
+
+            avatars.forEach(avatar -> avatar.setAvatarUri(url+avatar.getAvatarName()));
 
             view.addObject("avatars", avatars);
 

@@ -52,8 +52,8 @@ public class AvatarServiceImpl implements AvatarService {
 
         List<Avatar> avatars = avatarDAO.find();
 
-        avatars.forEach(avatar -> avatar.setAvatarUri(MvcUriComponentsBuilder.fromMethodName(AvatarController.class,
-                "serveFile", avatar.getAvatarName()).build().toString()));
+        /*avatars.forEach(avatar -> avatar.setAvatarUri(MvcUriComponentsBuilder.fromMethodName(AvatarController.class,
+                "serveFile", avatar.getAvatarName()).build().toString()));*/
 
         return avatars;
     }
